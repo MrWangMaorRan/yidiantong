@@ -8,7 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -37,7 +37,6 @@ import com.yidiantong.app.MyLinPhoneManager;
 import com.yidiantong.base.AppManager;
 import com.yidiantong.base.BaseActivity;
 import com.yidiantong.base.Constants;
-import com.yidiantong.bean.LoginBean;
 import com.yidiantong.bean.VersionBean;
 import com.yidiantong.model.biz.IMain;
 import com.yidiantong.presenter.MainPresenter;
@@ -214,12 +213,17 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
         timerCallBackUtils = new TimerCallBackUtils(millisInFuture, countDownInterval, callRingCallBack);
         timerCallBackUtils.start();
 
+
+
+
+
         //获取自身版本
         thisVersion = getvertion(this);
         Log.i("xxxx", "init: " + thisVersion);
         Log.i("xxxx", "token------: " + SpUtils.getInstance().getString("token"));
         //请求网络后台 获取最新版本号
-        getversion();
+       //getversion();
+
     }
 
     class HeaderInterceptor implements Interceptor {
@@ -312,6 +316,7 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 dialog.dismiss();
             }
         });
@@ -335,8 +340,13 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
                // dialog.dismiss();
             }
         });
-        dialog.show();
-    }
+
+       //修正后代码
+        if(!isFinishing()) {
+            dialog.show();
+        }
+
+        }
 
 
     private void updateHint(String downloadUrl,double fileSize) {
@@ -466,11 +476,19 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
                 break;
             case R.id.iv_input_call:
                 mainPresenter.call(etInputText.getText().toString());
+                mainPresenter.deleteInput_quanbu();
                 break;
             case R.id.iv_input_delete:
                 mainPresenter.deleteInput();
                 break;
         }
+        ivInputDelete.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                mainPresenter.deleteInput_quanbu();
+                return false;
+            }
+        });
     }
 
 
@@ -582,7 +600,7 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
 
     @Override
     public void refreshKeyboardInput(String inputText) {
-        HandlerUtils.setText(etInputText, inputText);
+       HandlerUtils.setText(etInputText, inputText);
     }
 
     @Override
