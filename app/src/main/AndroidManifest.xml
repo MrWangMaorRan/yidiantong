@@ -43,7 +43,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.warehouse.HouseActivity"></activity>
+        <activity android:name=".view.warehouse.HouseActivity">
+            <intent-filter tools:ignore="AppLinkUrlError">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="*/*" />
+            </intent-filter>
+        </activity>
         <!-- 配置APP ID -->
         <!-- <meta-data -->
         <!-- android:name="BUGLY_APPID" -->
@@ -111,13 +119,7 @@
         <activity android:name=".view.mine.MineInfoActivity" />
         <activity android:name=".view.home.CluesDetailActivity" />
         <activity android:name=".view.home.PickContactActivity">
-            <intent-filter tools:ignore="AppLinkUrlError">
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="*/*" />
-            </intent-filter>
         </activity> <!-- sip sdk的服务 -->
         <service android:name="com.yzx.yzxsip.service.PhoneService" />
     </application>

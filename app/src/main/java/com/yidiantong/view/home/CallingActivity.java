@@ -300,7 +300,7 @@ public class CallingActivity extends BaseActivity implements ICalling {
 
     @Override
     public void saveAndHangUpCallingFailureResult() {
-        callingPresenter.showCommitFailureDialog(isCallNext);
+       // callingPresenter.showCommitFailureDialog(isCallNext);
     }
 
     @Override

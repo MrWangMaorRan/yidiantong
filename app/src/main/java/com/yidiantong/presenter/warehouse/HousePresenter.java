@@ -11,6 +11,8 @@ import com.yidiantong.httpUtils.OkhttpUtil;
 import com.yidiantong.model.biz.warehouse.House;
 import com.yidiantong.model.impl.warehouse.Houseimpl;
 
+import java.io.File;
+
 public class HousePresenter implements Houseimpl.OnCallBackListener {
 
 
@@ -25,8 +27,9 @@ public class HousePresenter implements Houseimpl.OnCallBackListener {
         houseimpl = new Houseimpl();
 
     }
-    public  void upWeinxin(){
-        houseimpl.getWeixin(mContext,null,"file", OkhttpUtil.FILE_TYPE_IMAGE,this);
+    public  void Setpath(String path){
+        File file = new File(path);
+        houseimpl.getWeixin(mContext,file,"file", OkhttpUtil.FILE_TYPE_FILE,this);
     }
     @Override
     public void onWeiXinFileSuccess(WeiXinBean upLoadFileBean) {

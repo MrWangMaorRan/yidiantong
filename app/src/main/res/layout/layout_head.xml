@@ -40,6 +40,14 @@
             android:background="@null"
             android:src="@drawable/ic_mine_black"
             android:visibility="gone" />
+        <ImageView
+            android:id="@+id/iv_weixin"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:padding="13dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_import_address_book"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/iv_right_2"
