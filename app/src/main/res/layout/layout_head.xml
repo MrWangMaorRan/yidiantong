@@ -46,8 +46,9 @@
             android:layout_height="match_parent"
             android:padding="13dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_import_address_book"
-            android:visibility="gone" />
+            android:src="@drawable/ic_dialog_upload"
+            android:visibility="visible"
+           />
 
         <ImageView
             android:id="@+id/iv_right_2"
@@ -69,4 +70,5 @@
     </LinearLayout>
 
     <View style="@style/lineStyleHorizontal" />
+<!--    <include layout="@layout/lay_share_dialog"></include>-->
 </LinearLayout>

@@ -28,13 +28,13 @@ public class HousePresenter implements Houseimpl.OnCallBackListener {
 
     }
     public  void Setpath(String path){
-        File file = new File(path);
-        houseimpl.getWeixin(mContext,file,"file", OkhttpUtil.FILE_TYPE_FILE,this);
+//        File file = new File(path);
+//        houseimpl.getWeixin(mContext,file,"file", OkhttpUtil.FILE_TYPE_FILE,this);
     }
     @Override
     public void onWeiXinFileSuccess(WeiXinBean upLoadFileBean) {
-        upLoadFileBean1 = upLoadFileBean;
-        house.onWeinxin(upLoadFileBean);
+//        upLoadFileBean1 = upLoadFileBean;
+//        house.onWeinxin(upLoadFileBean);
 
 
     }

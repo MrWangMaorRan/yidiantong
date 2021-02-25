@@ -970,4 +970,8 @@ public class MainPresenter implements MainImpl.OnCallBackListener {
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(0);
     }
+
+    public void getIntents() {
+
+    }
 }

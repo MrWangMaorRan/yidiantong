@@ -19,4 +19,5 @@
         <include layout="@layout/layout_nav_navigation" />
 
     </com.google.android.material.navigation.NavigationView>
+
 </androidx.drawerlayout.widget.DrawerLayout>
