@@ -42,7 +42,7 @@ public class HouseActivity extends BaseActivity implements House {
     @Override
     public void getIntentData() {
         //微信文件
-        getroute();
+       // getroute();
         //初始化控件
         initView();
         //添加标题
@@ -50,19 +50,22 @@ public class HouseActivity extends BaseActivity implements House {
         //添加fragment
         initFragment();
         //设置适配器
-        vp.setAdapter(new Vp_Fragment_Adapter(manager, fragments, mtitleList));
-        manager = getSupportFragmentManager();
+        vp.setAdapter(new Vp_Fragment_Adapter(getSupportFragmentManager(), fragments, mtitleList));
+      //  manager = getSupportFragmentManager();
         //将tablayout与fragment关联
         tb.setupWithViewPager(vp);
         setSupportActionBar(toolbar);
-        FragmentTransaction transaction = manager.beginTransaction();
-        house_myFile_fragment1 = new House_MyFile_Fragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("msq",fileTruePath);
-        house_myFile_fragment1.setArguments(bundle);
-        transaction.commit();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+     //   FragmentTransaction transaction = manager.beginTransaction();
+//        house_myFile_fragment1 = new House_MyFile_Fragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putString("msq",fileTruePath);
+//        house_myFile_fragment1.setArguments(bundle);
+//        transaction.commit();
 
     }
+
 
     private void initFragment() {
         fragments = new ArrayList<>();
@@ -83,6 +86,7 @@ public class HouseActivity extends BaseActivity implements House {
         tb = findViewById(R.id.house_tablayout);
         vp = findViewById(R.id.house_Vp);
         toolbar = findViewById(R.id.house_toolbar);
+
     }
 
     private  void  getroute() {

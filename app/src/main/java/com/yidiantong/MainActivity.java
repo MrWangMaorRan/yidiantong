@@ -1,15 +1,18 @@
 package com.yidiantong;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -25,59 +28,34 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.yidiantong.api.ApiService;
-import com.yidiantong.api.Backpro;
-import com.yidiantong.app.MainApplication;
 import com.yidiantong.app.MyLinPhoneManager;
 import com.yidiantong.base.AppManager;
 import com.yidiantong.base.BaseActivity;
 import com.yidiantong.base.Constants;
-import com.yidiantong.bean.VersionBean;
 import com.yidiantong.model.biz.IMain;
-import com.yidiantong.model.impl.warehouse.Houseimpl;
 import com.yidiantong.presenter.MainPresenter;
 import com.yidiantong.util.DensityUtils;
-import com.yidiantong.util.DownloadUtils;
 import com.yidiantong.util.HandlerUtils;
 import com.yidiantong.util.PermissinsUtils;
 import com.yidiantong.util.SharedPreferencesUtil;
-import com.yidiantong.util.SpUtils;
 import com.yidiantong.util.TimerCallBackUtils;
-import com.yidiantong.util.ToastUtils;
 import com.yidiantong.util.Utils;
 import com.yidiantong.util.log.LogUtils;
 import com.yidiantong.view.warehouse.HouseActivity;
 import com.yidiantong.widget.RoundImageView;
-import com.yidiantong.widget.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends BaseActivity implements IMain, XRecyclerView.LoadingListener {
 
@@ -218,6 +196,8 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
         //
         timerCallBackUtils = new TimerCallBackUtils(millisInFuture, countDownInterval, callRingCallBack);
         timerCallBackUtils.start();
+       // File file = new File(path);
+
 
     }
 
@@ -427,7 +407,7 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
 
     @OnClick({R.id.iv_left, R.id.iv_right, R.id.iv_right_2, R.id.ll_select_type, R.id.ll_select_address,
             R.id.ll_select_sorting, R.id.ll_select_screening, R.id.ll_mine_info, R.id.ll_my_business, R.id.ll_setting,
-            R.id.iv_input_call_show, R.id.iv_input_hide, R.id.iv_input_call, R.id.iv_input_delete, R.id.ll_header, R.id.ll_content,R.id.ll_house,R.id.iv_weixin})
+            R.id.iv_input_call_show, R.id.iv_input_hide, R.id.iv_input_call, R.id.iv_input_delete, R.id.ll_header, R.id.ll_content,R.id.ll_house,R.id.iv_weixin,})
     public void onViewClicked(View view) {
         drawerLayout.closeDrawer(Gravity.RIGHT);
         switch (view.getId()) {
@@ -525,6 +505,12 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
         window.setWindowAnimations(R.style.share_animation);
 
         View view = View.inflate(this, R.layout.lay_share_dialog, null); //获取布局视图
+        ImageView dialog_close = view.findViewById(R.id.dialog_close);
+        TextView download = view.findViewById(R.id.download);
+        Button dialog_button_file = view.findViewById(R.id.dialog_button_file);
+        Button dialog_button_cellphone = view.findViewById(R.id.dialog_button_cellphone);
+        //ImageView dialog_close = findViewById(R.id.dialog_close);
+
 //        view.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -535,7 +521,166 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
 //        });
         window.setContentView(view);
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);//设置横向全屏
+        dialog_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mShareDialog.dismiss();
+            }
+        });
+        dialog_button_file.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, HouseActivity.class);
+                startActivity(intent);
+            }
+        });
+        dialog_button_cellphone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                //intent.setType(“image/*”);//选择图片
+                //intent.setType(“audio/*”); //选择音频
+                //intent.setType(“video/*”); //选择视频 （mp4 3gp 是android支持的视频格式）
+                //intent.setType(“video/*;image/*”);//同时选择视频和图片
+                intent.setType("*/*");//无类型限制
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                startActivityForResult(intent, 1);
+            }
+        });
+
     }
+
+
+
+
+    public String getRealPathFromURI(Uri contentUri) {
+        String res = null;
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+        if(null!=cursor&&cursor.moveToFirst()){;
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            res = cursor.getString(column_index);
+            cursor.close();
+        }
+        return res;
+    }
+
+    /**
+     * 专为Android4.4设计的从Uri获取文件绝对路径，以前的方法已不好使
+     */
+    @SuppressLint("NewApi")
+    public String getPath(final Context context, final Uri uri) {
+
+        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+
+        // DocumentProvider
+        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+            // ExternalStorageProvider
+            if (isExternalStorageDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                if ("primary".equalsIgnoreCase(type)) {
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                }
+            }
+            // DownloadsProvider
+            else if (isDownloadsDocument(uri)) {
+
+                final String id = DocumentsContract.getDocumentId(uri);
+                final Uri contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+                return getDataColumn(context, contentUri, null, null);
+            }
+            // MediaProvider
+            else if (isMediaDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                Uri contentUri = null;
+                if ("image".equals(type)) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+
+                final String selection = "_id=?";
+                final String[] selectionArgs = new String[]{split[1]};
+
+                return getDataColumn(context, contentUri, selection, selectionArgs);
+            }
+        }
+        // MediaStore (and general)
+        else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            return getDataColumn(context, uri, null, null);
+        }
+        // File
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+        return null;
+    }
+
+    /**
+     * Get the value of the data column for this Uri. This is useful for
+     * MediaStore Uris, and other file-based ContentProviders.
+     *
+     * @param context       The context.
+     * @param uri           The Uri to query.
+     * @param selection     (Optional) Filter used in the query.
+     * @param selectionArgs (Optional) Selection arguments used in the query.
+     * @return The value of the _data column, which is typically a file path.
+     */
+    public String getDataColumn(Context context, Uri uri, String selection,
+                                String[] selectionArgs) {
+
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = {column};
+
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
+                    null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int column_index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(column_index);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is ExternalStorageProvider.
+     */
+    public boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is DownloadsProvider.
+     */
+    public boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is MediaProvider.
+     */
+    public boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -553,12 +698,32 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
             mainPresenter.getUserInfo();
         }
     }
-
+    String path;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mainPresenter.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getData();
+            if ("file".equalsIgnoreCase(uri.getScheme())){//使用第三方应用打开
+                path = uri.getPath();
+//                tv.setText(path);
+                Toast.makeText(this,path+"11111",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {//4.4以后
+                path = getPath(this, uri);
+//                tv.setText(path);
+                Toast.makeText(this,path,Toast.LENGTH_SHORT).show();
+            } else {//4.4以下下系统调用方法
+                path = getRealPathFromURI(uri);
+//                tv.setText(path);
+                Toast.makeText(MainActivity.this, path+"222222", Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
+
 
 //    @Override
 //    public boolean dispatchKeyEvent(KeyEvent event) {
