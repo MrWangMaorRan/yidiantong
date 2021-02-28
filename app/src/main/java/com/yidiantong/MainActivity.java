@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -33,25 +34,52 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.yidiantong.adapter.ContactAdapter;
 import com.yidiantong.app.MyLinPhoneManager;
 import com.yidiantong.base.AppManager;
 import com.yidiantong.base.BaseActivity;
 import com.yidiantong.base.Constants;
+import com.yidiantong.bean.ContactBean;
+import com.yidiantong.bean.XlseBean;
+import com.yidiantong.bean.request.SearchPhoneDto;
 import com.yidiantong.model.biz.IMain;
+import com.yidiantong.model.impl.home.PickContactImpl;
 import com.yidiantong.presenter.MainPresenter;
+import com.yidiantong.presenter.home.PickContactPresenter;
 import com.yidiantong.util.DensityUtils;
+import com.yidiantong.util.ExcelUtils;
 import com.yidiantong.util.HandlerUtils;
 import com.yidiantong.util.PermissinsUtils;
+import com.yidiantong.util.ReadExcel;
 import com.yidiantong.util.SharedPreferencesUtil;
+import com.yidiantong.util.StringUtils;
 import com.yidiantong.util.TimerCallBackUtils;
+import com.yidiantong.util.ToastUtils;
 import com.yidiantong.util.Utils;
 import com.yidiantong.util.log.LogUtils;
 import com.yidiantong.view.warehouse.HouseActivity;
 import com.yidiantong.widget.RoundImageView;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -147,7 +175,8 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
     private ImageView weixin;
     private Dialog mShareDialog;
     private ImageView dialog_close;
-
+    private ArrayList<XlseBean> xlseBeans;
+    private List<ContactBean> contactBeanList;
     @Override
     public void getIntentData() {
 
@@ -424,6 +453,7 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
                 break;
             case R.id.iv_weixin:
               //  mainPresenter.getContactPermission();
+
                 showDialog();
                 hideKeyboard(false);
                 break;
@@ -545,6 +575,7 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
                 intent.setType("*/*");//无类型限制
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 startActivityForResult(intent, 1);
+
             }
         });
 
@@ -698,7 +729,7 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
             mainPresenter.getUserInfo();
         }
     }
-    String path;
+  public   String path;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -721,9 +752,64 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
                 Toast.makeText(MainActivity.this, path+"222222", Toast.LENGTH_SHORT).show();
             }
         }
+        File file = new File(path);
+        try {
+            ExcelUtils.readExcel(file, new BactIntefacer() {
+                @Override
+                public void getSd(ArrayList<XlseBean> xlseBeans) {
+                    //调用上传电话号的接口
 
+                }
+            });
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * 读取excel   （xls和xlsx）
+     * @return
+     */
+
+
+    /**	获取单个单元格数据
+     * @param cell
+     * @return
+     * @author lizixiang ,2018-05-08
+     */
+    public static Object getCellFormatValue(Cell cell) {
+        Object cellValue = null;
+        if (cell != null) {
+            // 判断cell类型
+            switch (cell.getCellType()) {
+                case Cell.CELL_TYPE_NUMERIC: {
+                    cellValue = String.valueOf(cell.getNumericCellValue());
+                    break;
+                }
+                case Cell.CELL_TYPE_FORMULA: {
+                    // 判断cell是否为日期格式
+                    if (DateUtil.isCellDateFormatted(cell)) {
+                        // 转换为日期格式YYYY-mm-dd
+                        cellValue = cell.getDateCellValue();
+                    } else {
+                        // 数字
+                        cellValue = String.valueOf(cell.getNumericCellValue());
+                    }
+                    break;
+                }
+                case Cell.CELL_TYPE_STRING: {
+                    cellValue = cell.getRichStringCellValue().getString();
+                    break;
+                }
+                default:
+                    cellValue = "";
+            }
+        } else {
+            cellValue = "";
+        }
+        return cellValue;
+
+    }
 
 //    @Override
 //    public boolean dispatchKeyEvent(KeyEvent event) {
@@ -916,5 +1002,4 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
             MyLinPhoneManager.getInstance(mContext).login();
         }
     };
-
 }

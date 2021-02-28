@@ -17,6 +17,7 @@ import com.yidiantong.R;
 import com.yidiantong.adapter.ContactAdapter;
 import com.yidiantong.bean.ContactBean;
 import com.yidiantong.bean.CustomPSPViewBean;
+import com.yidiantong.bean.XlseBean;
 import com.yidiantong.bean.request.ImportAddressBookDto;
 import com.yidiantong.bean.request.SearchPhoneDto;
 import com.yidiantong.model.biz.home.IPickContact;
@@ -72,7 +73,7 @@ public class PickContactPresenter implements PickContactImpl.OnCallBackListener 
         searchApi();
     }
 
-    public void initAdapter(IndexableLayout indexableLayout) {
+    public void     initAdapter(IndexableLayout indexableLayout) {
         indexableLayout.setLayoutManager(new LinearLayoutManager(mContext));
 //        indexableLayout.setLayoutManager(new GridLayoutManager(this, 3));
         // setAdapter
@@ -132,6 +133,16 @@ public class PickContactPresenter implements PickContactImpl.OnCallBackListener 
         List<String> list = new ArrayList<>();
         for (ContactBean contactBean : contactBeanList) {
             list.add(contactBean.getPhone());
+        }
+        SearchPhoneDto searchPhoneDto = new SearchPhoneDto();
+        searchPhoneDto.setPhones(StringUtils.listToString(list));
+        pickContactImpl.search(mContext, searchPhoneDto, this);
+    }
+    // SD卡文件查询是否可用
+    public void searchApi_two(List<XlseBean> xlseBeanList) {
+        List<String> list = new ArrayList<>();
+        for (XlseBean contactBean : xlseBeanList) {
+            list.add(contactBean.getPhonenum());
         }
         SearchPhoneDto searchPhoneDto = new SearchPhoneDto();
         searchPhoneDto.setPhones(StringUtils.listToString(list));

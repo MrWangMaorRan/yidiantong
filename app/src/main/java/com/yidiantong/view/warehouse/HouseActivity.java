@@ -30,25 +30,25 @@ public class HouseActivity extends BaseActivity implements House {
 
 
     private HousePresenter housePresenter;
-    private String fileTruePath;
+
     private TabLayout tb;
     private ArrayList<String> mtitleList;
     private ArrayList<Fragment> fragments;
     private ViewPager vp;
     private Toolbar toolbar;
-    private House_MyFile_Fragment house_myFile_fragment1;
-    private FragmentManager manager;
+    private House_MyFile_Fragment house_myFile_fragment;
 
     @Override
     public void getIntentData() {
-        //微信文件
-       // getroute();
+
         //初始化控件
         initView();
         //添加标题
         initTitile();
         //添加fragment
         initFragment();
+        //微信文件
+        getroute();
         //设置适配器
         vp.setAdapter(new Vp_Fragment_Adapter(getSupportFragmentManager(), fragments, mtitleList));
       //  manager = getSupportFragmentManager();
@@ -57,6 +57,7 @@ public class HouseActivity extends BaseActivity implements House {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        tb.setSelectedTabIndicatorHeight(0);
      //   FragmentTransaction transaction = manager.beginTransaction();
 //        house_myFile_fragment1 = new House_MyFile_Fragment();
 //        Bundle bundle = new Bundle();
@@ -69,17 +70,18 @@ public class HouseActivity extends BaseActivity implements House {
 
     private void initFragment() {
         fragments = new ArrayList<>();
-        fragments.add(new House_firm_Fragment());
-        fragments.add(new House_MyFile_Fragment());
+        house_myFile_fragment = new House_MyFile_Fragment();
+        //   fragments.add(new House_firm_Fragment());
+        fragments.add(house_myFile_fragment);
     }
 
     private void initTitile() {
         mtitleList = new ArrayList<>();
-        mtitleList.add("企业文件");
+     //   mtitleList.add("企业文件");
         mtitleList.add("我的文件");
-        tb.setTabMode(TabLayout.MODE_FIXED);
+      //  tb.setTabMode(TabLayout.MODE_FIXED);
         tb.addTab(tb.newTab().setText(mtitleList.get(0)));
-        tb.addTab(tb.newTab().setText(mtitleList.get(1)));
+        //tb.addTab(tb.newTab().setText(mtitleList.get(1)));
     }
 
     private void initView() {
@@ -100,16 +102,22 @@ public class HouseActivity extends BaseActivity implements House {
                 //获取到真实路径 GetRealPath.getFPUriToPath（）
                 String path = GetRealPath.getFPUriToPath(this, uri);
                 String[] dataStr = path.split("/");
-                fileTruePath = "";
+               String  fileTruePath = "";
                 //  String fileTruePath = "";
                 for (int i = 4; i < dataStr.length; i++) {
                     fileTruePath = fileTruePath + "/" + dataStr[i];
                     //fileTruePath = "/"+dataStr[i];
+
                 }
                 Log.i("真实路径", fileTruePath);
-
+                Bundle bundle = new Bundle();
+                bundle.putString("msq",fileTruePath);
+                house_myFile_fragment.setArguments(bundle);
+                // transaction.commit();
             }
-        }
+
+
+    }
     @Override
     public int getLayoutId() {
         return R.layout.activity_house;
@@ -117,10 +125,10 @@ public class HouseActivity extends BaseActivity implements House {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        housePresenter = new HousePresenter(this, this);
-        if (fileTruePath!=null){
-            housePresenter.Setpath(fileTruePath);
-        }
+//        housePresenter = new HousePresenter(this, this);
+//        if (fileTruePath!=null){
+//            housePresenter.Setpath(fileTruePath);
+//        }
     }
 
     @Override

@@ -85,7 +85,6 @@ public class PickContactActivity extends BaseActivity implements IPickContact {
     LinearLayout llAdd;
 
     private PickContactPresenter pickContactPresenter;
-    private String mUrl = "http://yidiantong.geewise.com/uploadFile";
     @Override
     public void getIntentData() {
 
@@ -109,15 +108,6 @@ public class PickContactActivity extends BaseActivity implements IPickContact {
         pickContactPresenter.textChangeListener(etSearch);
 
     }
-
-
-
-
-
-
-
-
-
 
     @OnClick({R.id.iv_left, R.id.ll_screening, R.id.ll_checked_all, R.id.ll_add})
     public void onViewClicked(View view) {

@@ -38,8 +38,9 @@ public class House_MyFile_Fragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
-//       Bundle arguments = getArguments();
-//       String msg = arguments.getString("msq");
+
+       Bundle arguments = getArguments();
+       String msg = arguments.getString("msq");
 
     }
 

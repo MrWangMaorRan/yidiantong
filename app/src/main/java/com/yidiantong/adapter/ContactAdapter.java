@@ -26,6 +26,10 @@ public class ContactAdapter extends IndexableAdapter<ContactBean> {
         mInflater = LayoutInflater.from(context);
     }
 
+    public ContactAdapter() {
+
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateTitleViewHolder(ViewGroup parent) {
         View view = mInflater.inflate(R.layout.item_index_contact, parent, false);
