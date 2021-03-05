@@ -1,17 +1,14 @@
 package com.yidiantong.view.warehouse;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.view.MenuItem;
 
 import com.google.android.material.tabs.TabLayout;
 import com.yidiantong.GetRealPath;
@@ -37,6 +34,7 @@ public class HouseActivity extends BaseActivity implements House {
     private ViewPager vp;
     private Toolbar toolbar;
     private House_MyFile_Fragment house_myFile_fragment;
+    private String fileTruePath;
 
     @Override
     public void getIntentData() {
@@ -51,44 +49,49 @@ public class HouseActivity extends BaseActivity implements House {
         getroute();
         //设置适配器
         vp.setAdapter(new Vp_Fragment_Adapter(getSupportFragmentManager(), fragments, mtitleList));
-      //  manager = getSupportFragmentManager();
         //将tablayout与fragment关联
         tb.setupWithViewPager(vp);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         tb.setSelectedTabIndicatorHeight(0);
-     //   FragmentTransaction transaction = manager.beginTransaction();
-//        house_myFile_fragment1 = new House_MyFile_Fragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putString("msq",fileTruePath);
-//        house_myFile_fragment1.setArguments(bundle);
-//        transaction.commit();
+        house_myFile_fragment = new House_MyFile_Fragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("msq",fileTruePath);
+        house_myFile_fragment.setArguments(bundle);
+
 
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home)
+        {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void initFragment() {
         fragments = new ArrayList<>();
         house_myFile_fragment = new House_MyFile_Fragment();
-        //   fragments.add(new House_firm_Fragment());
+       // fragments.add(new House_firm_Fragment());
         fragments.add(house_myFile_fragment);
     }
 
     private void initTitile() {
         mtitleList = new ArrayList<>();
-     //   mtitleList.add("企业文件");
+       // mtitleList.add("企业文件");
         mtitleList.add("我的文件");
-      //  tb.setTabMode(TabLayout.MODE_FIXED);
+        tb.setTabMode(TabLayout.MODE_FIXED);
         tb.addTab(tb.newTab().setText(mtitleList.get(0)));
-        //tb.addTab(tb.newTab().setText(mtitleList.get(1)));
+       // tb.addTab(tb.newTab().setText(mtitleList.get(1)));
     }
 
     private void initView() {
         tb = findViewById(R.id.house_tablayout);
         vp = findViewById(R.id.house_Vp);
         toolbar = findViewById(R.id.house_toolbar);
-
     }
 
     private  void  getroute() {
@@ -96,22 +99,24 @@ public class HouseActivity extends BaseActivity implements House {
             String action = intent.getAction();
             if (intent.ACTION_VIEW.equals(action)) {
                 Uri uri = intent.getData();
+                Log.i("真实路径", uri.toString());
+//                String str = Uri.decode(uri.getEncodedPath());
+//                    String data = intent.getDataString();
+//                    String str = Uri.decode(data);
 
-                String str = Uri.decode(uri.getEncodedPath());
-                Log.i("真实uri路径", str);
                 //获取到真实路径 GetRealPath.getFPUriToPath（）
                 String path = GetRealPath.getFPUriToPath(this, uri);
                 String[] dataStr = path.split("/");
-               String  fileTruePath = "";
+                fileTruePath = "";
                 //  String fileTruePath = "";
                 for (int i = 4; i < dataStr.length; i++) {
                     fileTruePath = fileTruePath + "/" + dataStr[i];
                     //fileTruePath = "/"+dataStr[i];
 
                 }
-                Log.i("真实路径", fileTruePath);
+
                 Bundle bundle = new Bundle();
-                bundle.putString("msq",fileTruePath);
+                bundle.putString("msq",path);
                 house_myFile_fragment.setArguments(bundle);
                 // transaction.commit();
             }

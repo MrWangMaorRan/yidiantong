@@ -33,6 +33,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
     <application
         android:name=".app.MainApplication"
         android:allowBackup="true"
@@ -43,6 +44,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".view.myhome.MyHomeActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"></activity>
         <activity android:name=".view.warehouse.HouseActivity">
             <intent-filter tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
@@ -51,8 +56,7 @@
 
                 <data android:mimeType="*/*" />
             </intent-filter>
-        </activity>
-        <!-- 配置APP ID -->
+        </activity> <!-- 配置APP ID -->
         <!-- <meta-data -->
         <!-- android:name="BUGLY_APPID" -->
         <!-- android:value="APP_ID" /> -->
@@ -79,6 +83,7 @@
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:theme="@android:style/Theme.Translucent" />
+
         <provider
             android:name=".util.BuglyFileProvider"
             android:authorities="${applicationId}.fileProvider"
@@ -88,18 +93,16 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"
-                tools:replace="name,resource"/>
-        </provider>
-<!--        <provider-->
-<!--            android:name="androidx.core.content.FileProvider"-->
-<!--            android:authorities="com.yidiantong.fileprovider"-->
-<!--            android:exported="false"-->
-<!--            android:grantUriPermissions="true">-->
-<!--            <meta-data-->
-<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
-<!--                android:resource="@xml/file_paths" />-->
-<!--        </provider>-->
-
+                tools:replace="name,resource" />
+        </provider> <!-- <provider -->
+        <!-- android:name="androidx.core.content.FileProvider" -->
+        <!-- android:authorities="com.yidiantong.fileprovider" -->
+        <!-- android:exported="false" -->
+        <!-- android:grantUriPermissions="true"> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
+        <!-- android:resource="@xml/file_paths" /> -->
+        <!-- </provider> -->
         <activity android:name=".view.login.LoginActivity" /> <!-- <activity android:name=".view.login.LoginActivity" /> -->
         <activity android:name=".MainActivity" />
         <activity
@@ -118,9 +121,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".view.mine.MineInfoActivity" />
         <activity android:name=".view.home.CluesDetailActivity" />
-        <activity android:name=".view.home.PickContactActivity">
-
-        </activity> <!-- sip sdk的服务 -->
+        <activity android:name=".view.home.PickContactActivity"></activity> <!-- sip sdk的服务 -->
         <service android:name="com.yzx.yzxsip.service.PhoneService" />
     </application>
 

@@ -40,8 +40,10 @@ import com.yidiantong.base.AppManager;
 import com.yidiantong.base.BaseActivity;
 import com.yidiantong.base.Constants;
 import com.yidiantong.bean.ContactBean;
+import com.yidiantong.bean.WeiXinBean;
 import com.yidiantong.bean.XlseBean;
 import com.yidiantong.bean.request.SearchPhoneDto;
+import com.yidiantong.fragment.House_MyFile_Fragment;
 import com.yidiantong.model.biz.IMain;
 import com.yidiantong.model.impl.home.PickContactImpl;
 import com.yidiantong.presenter.MainPresenter;
@@ -57,6 +59,7 @@ import com.yidiantong.util.TimerCallBackUtils;
 import com.yidiantong.util.ToastUtils;
 import com.yidiantong.util.Utils;
 import com.yidiantong.util.log.LogUtils;
+import com.yidiantong.view.myhome.MyHomeActivity;
 import com.yidiantong.view.warehouse.HouseActivity;
 import com.yidiantong.widget.RoundImageView;
 
@@ -226,8 +229,14 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
         timerCallBackUtils = new TimerCallBackUtils(millisInFuture, countDownInterval, callRingCallBack);
         timerCallBackUtils.start();
        // File file = new File(path);
-
-
+        ImageView aaaa = findViewById(R.id.aaaa);
+        aaaa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MyHomeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 //        //获取自身版本
@@ -575,7 +584,7 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
                 intent.setType("*/*");//无类型限制
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 startActivityForResult(intent, 1);
-
+                mShareDialog.dismiss();
             }
         });
 
@@ -746,24 +755,32 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
                 path = getPath(this, uri);
 //                tv.setText(path);
                 Toast.makeText(this,path,Toast.LENGTH_SHORT).show();
+                Log.i("sssssss",path);
             } else {//4.4以下下系统调用方法
                 path = getRealPathFromURI(uri);
 //                tv.setText(path);
                 Toast.makeText(MainActivity.this, path+"222222", Toast.LENGTH_SHORT).show();
             }
-        }
-        File file = new File(path);
-        try {
-            ExcelUtils.readExcel(file, new BactIntefacer() {
-                @Override
-                public void getSd(ArrayList<XlseBean> xlseBeans) {
-                    //调用上传电话号的接口
+            File file = new File(path);
+            try {
+                ExcelUtils.readExcel(file, new BactIntefacer() {
+                    @Override
+                    public void getSd(ArrayList<XlseBean> xlseBeans) {
+                        //调用上传电话号的接口
+                        mainPresenter.importSD(xlseBeans);
 
-                }
-            });
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+                    }
+
+                    @Override
+                    public void getWeixin(ArrayList<WeiXinBean> weiXinBeans) {
+
+                    }
+                });
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     /**

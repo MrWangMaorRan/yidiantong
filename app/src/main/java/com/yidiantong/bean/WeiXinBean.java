@@ -2,55 +2,30 @@ package com.yidiantong.bean;
 
 import java.io.Serializable;
 
-public class WeiXinBean implements Serializable {
+public class WeiXinBean {
+    private  String name;
+    private  String path;
 
-    /**
-     * code : 0
-     * message : 头像上传成功
-     * data : {"path":"http://zhengyongqi.oss-cn-hangzhou.aliyuncs.com/yidiantong/20201228/79965096-72cf-4f5d-8535-98d3fb744c2d.bin"}
-     */
-
-    private int code;
-    private String message;
-    private DataBean data;
-
-    public int getCode() {
-        return code;
+    public WeiXinBean(String name, String path) {
+        this.name = name;
+        this.path = path;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getMessage() {
-        return message;
+    public void setPath(String path) {
+        this.path = path;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+
+    public String getName() {
+        return name;
     }
 
-    public DataBean getData() {
-        return data;
+    public String getPath() {
+        return path;
     }
 
-    public void setData(DataBean data) {
-        this.data = data;
-    }
-
-    public static class DataBean {
-        /**
-         * path : http://zhengyongqi.oss-cn-hangzhou.aliyuncs.com/yidiantong/20201228/79965096-72cf-4f5d-8535-98d3fb744c2d.bin
-         */
-
-        private String path;
-
-        public String getPath() {
-            return path;
-        }
-
-        public void setPath(String path) {
-            this.path = path;
-        }
-    }
 }

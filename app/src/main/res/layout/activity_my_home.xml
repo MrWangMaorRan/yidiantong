@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".view.myhome.MyHomeActivity"
+    android:id="@+id/lll"
+    android:background="#DAFAFAFA"
+    >
+
+        <FrameLayout
+            android:id="@+id/fy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_background">
+        </FrameLayout>
+
+<!--    <ImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/ic_background"/>-->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="75dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/ll"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/shapa_rounds"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/myhome_head"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/ic_house_excel"></ImageView>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:paddingLeft="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="张三"
+                        android:textColor="#242528"
+                        android:textSize="18sp"></TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="9dp"
+                        android:text="手机号"
+                        android:textColor="#242528"
+                        android:textSize="12sp"></TextView>
+                </LinearLayout>
+
+                <!--        <ImageView-->
+                <!--            android:layout_marginRight="15dp"-->
+                <!--            android:layout_width="wrap_content"-->
+                <!--            android:layout_height="wrap_content"-->
+                <!--            android:src="@drawable/ic_call_next"></ImageView>-->
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="85dp"
+                android:layout_marginLeft="15dp"
+                >
+                <LinearLayout
+                    android:background="@drawable/shapa_rounds"
+                    android:layout_width="104dp"
+                    android:orientation="vertical"
+                    android:layout_height="85dp">
+                    <ImageView
+                        android:layout_marginTop="16dp"
+                        android:id="@+id/im_my_home"
+                        android:src="@drawable/pay_blue"
+                        android:layout_gravity="center"
+                        android:layout_width="104dp"
+                        android:layout_height="wrap_content">
+                    </ImageView>
+                    <TextView
+                        android:paddingTop="8dp"
+                        android:textSize="12sp"
+                        android:text="优惠充值"
+                        android:layout_gravity="center"
+                        android:textColor="#3f74fd"
+                        android:id="@+id/tv_myhome_discounts_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </TextView>
+                </LinearLayout>
+                <LinearLayout
+                    android:background="@drawable/shapa_rounds"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="85dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="月剩余分钟数"
+                        android:layout_marginTop="15dp"
+                        android:textColor="#242528"
+                        android:textSize="12sp">
+                    </TextView>
+                    <LinearLayout
+                        android:layout_gravity="center"
+                        android:paddingTop="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/tv_myhome_minute"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="28sp"
+                            android:text="123456"
+                            android:textColor="#3f74fd">
+                        </TextView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:textColor="#242528"
+                            android:text="分钟">
+                        </TextView>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/shapa_rounds"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_my_business">
+                    </ImageView>
+                    <TextView
+                        android:layout_gravity="center"
+                        android:paddingLeft="12dp"
+                        android:textColor="#242528"
+                        android:textSize="16sp"
+                        android:text="我的企业"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </TextView>
+
+                </LinearLayout>
+                <TextView
+                    android:background="#25242528"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"></TextView>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_my_menu_file">
+                    </ImageView>
+                    <TextView
+                        android:layout_gravity="center"
+                        android:paddingLeft="12dp"
+                        android:textColor="#242528"
+                        android:textSize="16sp"
+                        android:text="文件助手"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </TextView>
+
+                </LinearLayout>
+                <TextView
+                    android:background="#25242528"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"></TextView>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_setting_blue">
+                    </ImageView>
+                    <TextView
+                        android:layout_gravity="center"
+                        android:paddingLeft="12dp"
+                        android:textColor="#242528"
+                        android:textSize="16sp"
+                        android:text="设置"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </TextView>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+</RelativeLayout>

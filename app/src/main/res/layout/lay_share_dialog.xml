@@ -98,7 +98,7 @@
             android:layout_marginTop="20dp"
             android:drawableLeft="@drawable/ic_dialog_file"
             android:textSize="17dp"
-            android:text="从文件助手上传"
+            android:text="从文件助手导入"
             android:textColor="#fafafa"
             android:drawablePadding="6dip"
             android:gravity="center_vertical"
@@ -115,7 +115,7 @@
 
             android:drawableLeft="@drawable/ic_dialog_phone"
             android:drawablePadding="6dp"
-            android:text="直接从手机上传"
+            android:text="直接从手机导入"
             android:gravity="center_vertical"
             android:paddingLeft="90dp"
             android:textColor="#fafafa"

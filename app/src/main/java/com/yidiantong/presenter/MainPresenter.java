@@ -36,6 +36,7 @@ import com.yidiantong.base.AppManager;
 import com.yidiantong.base.Constants;
 import com.yidiantong.bean.CluesBean;
 import com.yidiantong.bean.CluesListBean;
+import com.yidiantong.bean.ContactBean;
 import com.yidiantong.bean.CustomPSPViewBean;
 import com.yidiantong.bean.FilterListBean;
 import com.yidiantong.bean.IndustryBean;
@@ -45,12 +46,15 @@ import com.yidiantong.bean.RegionBean;
 import com.yidiantong.bean.RegionListBean;
 import com.yidiantong.bean.TalkTimeInfoBean;
 import com.yidiantong.bean.UserInfoBean;
+import com.yidiantong.bean.XlseBean;
 import com.yidiantong.bean.request.CallRecordsDto;
 import com.yidiantong.bean.request.CluesDto;
 import com.yidiantong.bean.request.FilterListDto;
+import com.yidiantong.bean.request.ImportAddressBookDto;
 import com.yidiantong.bean.request.SortDto;
 import com.yidiantong.model.biz.IMain;
 import com.yidiantong.model.impl.MainImpl;
+import com.yidiantong.model.impl.home.PickContactImpl;
 import com.yidiantong.util.LQRPhotoSelectUtils;
 import com.yidiantong.util.LoadImageUtils;
 import com.yidiantong.util.PermissinsUtils;
@@ -73,7 +77,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainPresenter implements MainImpl.OnCallBackListener {
+public class MainPresenter implements MainImpl.OnCallBackListener ,PickContactImpl.OnCallBackListener{
 
     public final static int REQUEST_CODE_MINE_UPDATE = 0xa1;
     public final static int REQUEST_CODE_CLUES_UPDATE = 0xa2;
@@ -101,6 +105,7 @@ public class MainPresenter implements MainImpl.OnCallBackListener {
     private int timeInsufficient = 30; // 时间不足30分钟;
     private String callType;
     private String inputCallNumber = "";
+    private final PickContactImpl pickContact;
 
     public MainPresenter(Context mContext, IMain iMain) {
         this.mContext = mContext;
@@ -114,6 +119,7 @@ public class MainPresenter implements MainImpl.OnCallBackListener {
         filterListBean = new FilterListBean();
         cluesDto.setPage(page);
         callType = SharedPreferencesUtil.getSharedPreferences(mContext).getString("callType", "");
+        pickContact = new PickContactImpl();
     }
 
     // 产品列表是否为空
@@ -971,7 +977,42 @@ public class MainPresenter implements MainImpl.OnCallBackListener {
         System.exit(0);
     }
 
-    public void getIntents() {
+    // 查询是否可用
+    public void importSD(ArrayList<XlseBean> xlseBeans) {
+        ImportAddressBookDto importAddressBookDto = new ImportAddressBookDto();
+        List<ContactBean> canImportList = new ArrayList<>();
+        for (XlseBean xlseBean : xlseBeans) {
+            ContactBean contactBean1 = new ContactBean();
+
+            contactBean1.setPhone(xlseBean.getPhonenum());
+            contactBean1.setName(xlseBean.getName());
+            canImportList.add(contactBean1);
+
+        }
+        importAddressBookDto.setPhoneList(canImportList);
+        pickContact.importContacts(mContext, importAddressBookDto, this);
+
+    }
+
+    @Override
+    public void onSearchSuccess(List<String> phoneList) {
+
+    }
+
+    @Override
+    public void onSearchFailure(String msg) {
+
+    }
+
+    @Override
+    public void onImportContactsSuccess() {
+        ((Activity) mContext).setResult(Activity.RESULT_OK);
+        ToastUtils.showToast(mContext, "添加成功");
+        mainImpl.getIndustryList(mContext, this);
+    }
+
+    @Override
+    public void onImportContactsFailure(String msg) {
 
     }
 }

@@ -10,10 +10,12 @@ import com.yidiantong.bean.FilterListBean;
 import com.yidiantong.bean.IndustryBean;
 import com.yidiantong.bean.RegionBean;
 import com.yidiantong.bean.ResponseBean;
+import com.yidiantong.bean.ResponseCallAllBean;
 import com.yidiantong.bean.TalkTimeInfoBean;
 import com.yidiantong.bean.UserInfoBean;
 import com.yidiantong.httpUtils.CallBackUtil;
 import com.yidiantong.httpUtils.HttpUtil;
+import com.yidiantong.model.impl.home.PickContactImpl;
 import com.yidiantong.util.log.LogUtils;
 import com.yidiantong.util.StringUtils;
 
@@ -495,6 +497,8 @@ public class MainImpl {
         void onUpdateCallRecordsSuccess();
         // 失败
         void onUpdateCallRecordsFailure(String msg);
+
+
     }
 
 }
