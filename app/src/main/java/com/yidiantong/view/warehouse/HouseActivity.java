@@ -1,14 +1,14 @@
 package com.yidiantong.view.warehouse;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.yidiantong.GetRealPath;
@@ -17,7 +17,6 @@ import com.yidiantong.adapter.Vp_Fragment_Adapter;
 import com.yidiantong.base.BaseActivity;
 import com.yidiantong.bean.WeiXinBean;
 import com.yidiantong.fragment.House_MyFile_Fragment;
-import com.yidiantong.fragment.House_firm_Fragment;
 import com.yidiantong.model.biz.warehouse.House;
 import com.yidiantong.presenter.warehouse.HousePresenter;
 
@@ -33,18 +32,36 @@ public class HouseActivity extends BaseActivity implements House {
     private ArrayList<Fragment> fragments;
     private ViewPager vp;
     private Toolbar toolbar;
-    private House_MyFile_Fragment house_myFile_fragment;
     private String fileTruePath;
 
     @Override
     public void getIntentData() {
-
         //初始化控件
         initView();
         //添加标题
         initTitile();
         //添加fragment
-        initFragment();
+        fragments = new ArrayList<>();
+        // fragments.add(new House_firm_Fragment());
+
+        Intent intent = getIntent();
+        String chuanzhi = intent.getStringExtra("chuanzhi");
+        if (chuanzhi!=null){
+            if (chuanzhi.equals("2")){
+            //2是弹窗跳过来
+                House_MyFile_Fragment  house_myFile_fragment = new House_MyFile_Fragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("msq","2");
+                house_myFile_fragment.setArguments(bundle);
+                fragments.add(house_myFile_fragment);
+            }else {
+                House_MyFile_Fragment  house_myFile_fragment = new House_MyFile_Fragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("msq","3");
+                house_myFile_fragment.setArguments(bundle);
+                fragments.add(house_myFile_fragment);
+            }
+        }
         //微信文件
         getroute();
         //设置适配器
@@ -55,10 +72,8 @@ public class HouseActivity extends BaseActivity implements House {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         tb.setSelectedTabIndicatorHeight(0);
-        house_myFile_fragment = new House_MyFile_Fragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("msq",fileTruePath);
-        house_myFile_fragment.setArguments(bundle);
+
+
 
 
     }
@@ -72,12 +87,9 @@ public class HouseActivity extends BaseActivity implements House {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initFragment() {
-        fragments = new ArrayList<>();
-        house_myFile_fragment = new House_MyFile_Fragment();
-       // fragments.add(new House_firm_Fragment());
-        fragments.add(house_myFile_fragment);
-    }
+
+
+
 
     private void initTitile() {
         mtitleList = new ArrayList<>();
@@ -114,10 +126,11 @@ public class HouseActivity extends BaseActivity implements House {
                     //fileTruePath = "/"+dataStr[i];
 
                 }
-
+                House_MyFile_Fragment  house_myFile_fragment = new House_MyFile_Fragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("msq",path);
                 house_myFile_fragment.setArguments(bundle);
+                fragments.add(house_myFile_fragment);
                 // transaction.commit();
             }
 

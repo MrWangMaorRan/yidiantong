@@ -1,11 +1,12 @@
 package com.yidiantong.util;
 
+import android.os.Looper;
 import android.util.Log;
 
 import com.yidiantong.BactIntefacer;
-import com.yidiantong.MainActivity;
+import com.yidiantong.app.MainApplication;
 import com.yidiantong.bean.XlseBean;
-import com.yidiantong.util.log.LogUtils;
+import com.yidiantong.widget.ToastUtil;
 
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
@@ -17,15 +18,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class ExcelUtils {
+
 
 //    private static Cell cell;
 
@@ -34,50 +34,103 @@ public class ExcelUtils {
      * @param file
      * @throws
      */
-    public static void readExcel(File file, BactIntefacer bactIntefacer) throws FileNotFoundException {
+    public static void readExcel(File file, BactIntefacer bactIntefacer) {
 
-        if(file == null) {
-            Log.e("NullFile","读取Excel出错，文件为空文件");
+
+        if (file == null) {
+            Log.e("NullFile", "读取Excel出错，文件为空文件");
             return;
         }
-        InputStream stream = new FileInputStream(file);
-        try {
-            XSSFWorkbook workbook = new XSSFWorkbook(stream);
-            XSSFSheet sheet = workbook.getSheetAt(0);
-            int rowsCount = sheet.getPhysicalNumberOfRows();
-            FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
-            ArrayList<XlseBean> xlseBeans = new ArrayList<>();
-            for (int r = 0; r<rowsCount; r++) {
-                XlseBean xlseBean = new XlseBean();
+        Thread thread = new Thread() {
 
-                Row row = sheet.getRow(r);
-                int cellsCount = row.getPhysicalNumberOfCells();
-                //每次读取一行的内容
-                for (int c = 0; c<cellsCount; c++) {
-                    //将每一格子的内容转换为字符串形式
-                    String value = getCellAsString(row, c, formulaEvaluator);
-                    String cellInfo = "r:"+r+"; c:"+c+"; v:"+value;
-                 if (c%2!=0){
-                     double v = Double.parseDouble(value);
-                        DecimalFormat df = new DecimalFormat("###.#################");
-                       String  amount = df.format(v);
-                       xlseBean.setPhonenum(amount);
-                        Log.i("文件内容",amount);
-                 }else {
-                     xlseBean.setName(value);
-                     Log.i("文件名字",value);
-                 }
-                    xlseBeans.add(xlseBean);
+            private XlseBean xlseBean;
 
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    InputStream stream = new FileInputStream(file);
+
+                    XSSFWorkbook workbook = new XSSFWorkbook(stream);
+                    XSSFSheet sheet = workbook.getSheetAt(0);
+                    int rowsCount = sheet.getPhysicalNumberOfRows();
+                    FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
+                    ArrayList<XlseBean> xlseBeans = new ArrayList<>();
+                    Log.i("rowsCount", rowsCount + "");
+                    ArrayList<String> strings = new ArrayList<>();
+                    for (int r = 0; r < rowsCount; r++) {
+                        xlseBean = new XlseBean();
+                        Row row = sheet.getRow(r);
+                        int cellsCount = row.getPhysicalNumberOfCells();
+                        Log.i("cellsCount", cellsCount + "");
+                        //每次读取一行的内容
+                        for (int c = 0; c < cellsCount; c++) {
+//                            //将每一格子的内容转换为字符串形式
+                            String value = getCellAsString(row, c, formulaEvaluator);
+
+                            strings.add(value);
+                            //Log.i("文件内容", value);
+                            String cellInfo = "r:" + r + "; c:" + c + "; v:" + value;
+//                            if (c%2!=0){
+//                                double v = Double.parseDouble(value);
+//                                DecimalFormat df = new DecimalFormat("###.#################");
+//                                String  amount = df.format(v);
+//                                xlseBean.setPhonenum(amount);
+//                                Log.i("文件内容",amount);
+//                            }else {
+//                                xlseBean.setName(value);
+//                                Log.i("文件名字",value);
+//                            }
+//                            xlseBeans.add(xlseBean);
+                        }
+                    }
+                    String regx = "[+-]*\\d+\\.?\\d*[Ee]*[+-]*\\d+";
+                    strings.remove(0);
+                    for (int i = 0; i < strings.size(); i++) {
+                        xlseBean = new XlseBean();
+                        Log.i("集合内容", strings.get(i));
+                        String s = strings.get(i);
+                        Log.i("字符串内容",s);
+
+                        Pattern pattern = Pattern.compile(regx);
+                        boolean isNumber = pattern.matcher(s).matches();
+                        if (!isNumber) {
+                            Looper.prepare();
+                            ToastUtil.showShort(MainApplication.con, "文件格式不正确，请点击“下载模板”查看正确格式");
+                            Looper.loop();
+                        } else {
+                            double v = Double.parseDouble(strings.get(i));
+                            DecimalFormat df = new DecimalFormat("###.#################");
+                            String amount = df.format(v);
+                            boolean phone = isPhone(amount);
+                            Log.i("phone1111111", phone + "");
+                            if (phone == true) {
+                                xlseBean.setPhonenum(amount);
+                                xlseBeans.add(xlseBean);
+                                Log.i("xlseBean", xlseBean.getPhonenum());
+                            } else {
+                                Looper.prepare();
+                                ToastUtil.showShort(MainApplication.con, "电话号码格式不正确："+amount);
+                                Looper.loop();
+                            }
+                        }
+                    }
+                    bactIntefacer.getSd(xlseBeans);
+                } catch (Exception e) {
+                    /* proper exception handling to be here */
+                    Log.e("异常", "异常");
                 }
             }
-                bactIntefacer.getSd(xlseBeans);
-        } catch (Exception e) {
-            /* proper exception handling to be here */
-            Log.e("异常","异常");
-        }
-
+        };
+        thread.start();
     }
+
+    public static boolean isPhone (String phone){
+        String regex = "^((13[0-9])|(14[5-9])|(15([0-3]|[5-9]))|(16[6-7])|(17[1-8])|(18[0-9])|(19[1|3])|(19[5|6])|(19[8|9]))\\d{8}$";
+        Pattern p = Pattern.compile(regex);
+        return p.matcher(phone).matches();
+    }
+
 
     /**
      * 读取excel文件中每一行的内容
@@ -142,4 +195,5 @@ public class ExcelUtils {
     }
 
 
-    }
+
+}

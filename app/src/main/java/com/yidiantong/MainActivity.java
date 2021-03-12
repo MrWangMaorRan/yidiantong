@@ -34,7 +34,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.yidiantong.adapter.ContactAdapter;
 import com.yidiantong.app.MyLinPhoneManager;
 import com.yidiantong.base.AppManager;
 import com.yidiantong.base.BaseActivity;
@@ -42,47 +41,28 @@ import com.yidiantong.base.Constants;
 import com.yidiantong.bean.ContactBean;
 import com.yidiantong.bean.WeiXinBean;
 import com.yidiantong.bean.XlseBean;
-import com.yidiantong.bean.request.SearchPhoneDto;
-import com.yidiantong.fragment.House_MyFile_Fragment;
 import com.yidiantong.model.biz.IMain;
-import com.yidiantong.model.impl.home.PickContactImpl;
 import com.yidiantong.presenter.MainPresenter;
-import com.yidiantong.presenter.home.PickContactPresenter;
 import com.yidiantong.util.DensityUtils;
 import com.yidiantong.util.ExcelUtils;
 import com.yidiantong.util.HandlerUtils;
 import com.yidiantong.util.PermissinsUtils;
-import com.yidiantong.util.ReadExcel;
 import com.yidiantong.util.SharedPreferencesUtil;
-import com.yidiantong.util.StringUtils;
 import com.yidiantong.util.TimerCallBackUtils;
-import com.yidiantong.util.ToastUtils;
 import com.yidiantong.util.Utils;
 import com.yidiantong.util.log.LogUtils;
-import com.yidiantong.view.myhome.MyHomeActivity;
 import com.yidiantong.view.warehouse.HouseActivity;
 import com.yidiantong.widget.RoundImageView;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -134,8 +114,7 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
     LinearLayout llMyBusiness;
     @BindView(R.id.ll_setting)
     LinearLayout llSetting;
-    @BindView(R.id.nav_view)
-    NavigationView navView;
+
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @BindView(R.id.btn_right)
@@ -164,6 +143,10 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
     LinearLayout llContent;
     @BindView(R.id.ll_header)
     LinearLayout llHeader;
+    @BindView(R.id.tv_activity_myfile)
+     TextView tv_activity_myfile;
+    @BindView(R.id.iv_weixin)
+    ImageView iv_weixin;
 
     private MainPresenter mainPresenter;
     private boolean drawerLayoutIsOpen;
@@ -180,6 +163,10 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
     private ImageView dialog_close;
     private ArrayList<XlseBean> xlseBeans;
     private List<ContactBean> contactBeanList;
+    private ImageView iv_right;
+    private TextView download;
+    String pathss="https://yidiantong-down.oss-cn-shanghai.aliyuncs.com/yidiantong-down/";
+    String path_old = Environment.getExternalStorageDirectory() + "/MyFiles/yidiantong_file/";
     @Override
     public void getIntentData() {
 
@@ -193,6 +180,8 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
     @Override
     public void init(Bundle savedInstanceState) {
         ButterKnife.bind(this);
+        NavigationView nav_view = findViewById(R.id.nav_view);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mainPresenter = new MainPresenter(this, this);
         Utils.getPermission(this);
         // 拨号类型
@@ -205,16 +194,16 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
                 DensityUtils.dp2px(this, 12),
                 DensityUtils.dp2px(this, 12));
         ivLeft.setEnabled(false);
-        ivRight.setVisibility(View.VISIBLE);
-        tvTitle.setText(getResources().getString(R.string.title_clues));
         ivRight2.setVisibility(View.VISIBLE);
+        tvTitle.setText(getResources().getString(R.string.title_clues));
+        iv_weixin.setVisibility(View.VISIBLE);
 
         // 初始化输入键盘
         mainPresenter.initKeyboard(rvNumber);
         etInputText.setEnabled(false);
 
         // 侧滑栏是否打开监听
-        drawerLayout.setDrawerListener(drawerListener);
+//        drawerLayout.setDrawerListener(drawerListener);
         // 刷新加载监听
         xrvCallList.setLoadingListener(this);
         // 初始化适配器
@@ -229,12 +218,12 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
         timerCallBackUtils = new TimerCallBackUtils(millisInFuture, countDownInterval, callRingCallBack);
         timerCallBackUtils.start();
        // File file = new File(path);
-        ImageView aaaa = findViewById(R.id.aaaa);
-        aaaa.setOnClickListener(new View.OnClickListener() {
+        Button tb_my = findViewById(R.id.tb_my);
+        tb_my.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MyHomeActivity.class);
-                startActivity(intent);
+            mainPresenter.goToMine();
+            //mainPresenter.OnShichang();
             }
         });
     }
@@ -445,7 +434,7 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
 
     @OnClick({R.id.iv_left, R.id.iv_right, R.id.iv_right_2, R.id.ll_select_type, R.id.ll_select_address,
             R.id.ll_select_sorting, R.id.ll_select_screening, R.id.ll_mine_info, R.id.ll_my_business, R.id.ll_setting,
-            R.id.iv_input_call_show, R.id.iv_input_hide, R.id.iv_input_call, R.id.iv_input_delete, R.id.ll_header, R.id.ll_content,R.id.ll_house,R.id.iv_weixin,})
+            R.id.iv_input_call_show, R.id.iv_input_hide, R.id.iv_input_call, R.id.iv_input_delete, R.id.ll_header, R.id.ll_content,R.id.ll_house,R.id.iv_weixin,R.id.tv_activity_myfile})
     public void onViewClicked(View view) {
         drawerLayout.closeDrawer(Gravity.RIGHT);
         switch (view.getId()) {
@@ -499,6 +488,7 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
                 getIntents_House();
                 hideKeyboard(false);
                 break;
+
             case R.id.iv_input_call_show:
                 hideKeyboard(true);
                 break;
@@ -526,6 +516,7 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
 
     private void getIntents_House(){
         Intent intent = new Intent(this, HouseActivity.class);
+        intent.putExtra("chuanzhi","3");
         startActivity(intent);
     }
 
@@ -545,19 +536,9 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
 
         View view = View.inflate(this, R.layout.lay_share_dialog, null); //获取布局视图
         ImageView dialog_close = view.findViewById(R.id.dialog_close);
-        TextView download = view.findViewById(R.id.download);
+        download = view.findViewById(R.id.download);
         Button dialog_button_file = view.findViewById(R.id.dialog_button_file);
         Button dialog_button_cellphone = view.findViewById(R.id.dialog_button_cellphone);
-        //ImageView dialog_close = findViewById(R.id.dialog_close);
-
-//        view.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (mShareDialog != null && mShareDialog.isShowing()) {
-//                    mShareDialog.dismiss();
-//                }
-//            }
-//        });
         window.setContentView(view);
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);//设置横向全屏
         dialog_close.setOnClickListener(new View.OnClickListener() {
@@ -570,7 +551,9 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, HouseActivity.class);
+                intent.putExtra("chuanzhi","2");
                 startActivity(intent);
+                mShareDialog.dismiss();
             }
         });
         dialog_button_cellphone.setOnClickListener(new View.OnClickListener() {
@@ -587,7 +570,28 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
                 mShareDialog.dismiss();
             }
         });
+        download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse("https://yidiantong-down.oss-cn-shanghai.aliyuncs.com/yidiantong-down/客户信息导入模板.xlsx?versionId=CAEQGRiBgMDs6KCQwRciIDBkMGQzOWRmOTMyZTQ2Y2RhZGUzZmEwMzcxM2ExNjhi");
+                intent.setData(content_url);
+                startActivity(intent);
+//                Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
+//                startActivity(intent);
 
+
+//                new DownloadUtils().downloadOk(pathss, path_old, new Backpro() {
+//                    @Override
+//                    public void getpro(long max, int pro) {
+//                        Looper.prepare();
+//                        ToastUtil.showShort(MainActivity.this,"下载完成");
+//                        Looper.loop();
+//                    }
+//                });
+            }
+        });
     }
 
 
@@ -743,7 +747,7 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mainPresenter.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
+        if (requestCode==1&&resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
             if ("file".equalsIgnoreCase(uri.getScheme())){//使用第三方应用打开
                 path = uri.getPath();
@@ -754,7 +758,7 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {//4.4以后
                 path = getPath(this, uri);
 //                tv.setText(path);
-                Toast.makeText(this,path,Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this,path,Toast.LENGTH_SHORT).show();
                 Log.i("sssssss",path);
             } else {//4.4以下下系统调用方法
                 path = getRealPathFromURI(uri);
@@ -776,7 +780,7 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
 
                     }
                 });
-            } catch (FileNotFoundException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -892,6 +896,7 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
     @Override
     public void onUserInfoResult() {
         mainPresenter.userInfoSetText(rivHeadImg, tvName, tvPhoneNum);
+
     }
 
     @Override
@@ -953,6 +958,10 @@ public class MainActivity extends BaseActivity implements IMain, XRecyclerView.L
                     AppManager.finishAllActivity();
                     SharedPreferencesUtil.getSharedPreferences(mContext).clearAll();
                     mainPresenter.goToLoginStart();
+                    break;
+
+                case "sucess": // token超时
+                    mainPresenter.refreshData();
                     break;
             }
         }

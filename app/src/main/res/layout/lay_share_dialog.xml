@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="15dp"
         android:paddingLeft="40dp"
-        android:text="请填写数据到Excel中，Excel可包含以下表头"
+        android:text="请填写数据到Excel中，Excel只能包含以下表头"
         android:textColor="#020202"
         android:textSize="14dp"
         ></TextView>
@@ -58,16 +58,16 @@
             android:background="@drawable/shape_dialog_phone"
             android:text="手机号"
             android:textSize="14dp"></TextView>
-        <TextView
-            android:layout_marginLeft="7dp"
-            android:id="@+id/dialog_name"
-            android:layout_width="107dp"
-            android:layout_height="30dp"
-            android:gravity="center"
-            android:text="姓名"
-            android:background="@drawable/shape_dialog_name"
-            android:textColor="#020202"
-            android:textSize="14dp"></TextView>
+<!--        <TextView-->
+<!--            android:layout_marginLeft="7dp"-->
+<!--            android:id="@+id/dialog_name"-->
+<!--            android:layout_width="107dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:gravity="center"-->
+<!--            android:text="姓名"-->
+<!--            android:background="@drawable/shape_dialog_name"-->
+<!--            android:textColor="#020202"-->
+<!--            android:textSize="14dp"></TextView>-->
     </LinearLayout>
     <LinearLayout
         android:paddingLeft="40dp"

@@ -47,16 +47,8 @@
             android:padding="13dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_dialog_upload"
-            android:visibility="visible"
+            android:visibility="gone"
            />
-            <ImageView
-                android:id="@+id/aaaa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="13dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_call_next"
-                android:visibility="visible"></ImageView>
         <ImageView
             android:id="@+id/iv_right_2"
             android:layout_width="50dp"

@@ -8,21 +8,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.yidiantong.R;
-import com.yidiantong.app.MyLinPhoneManager;
 import com.yidiantong.base.BaseActivity;
 import com.yidiantong.bean.CluesListBean;
 import com.yidiantong.model.biz.home.ICluesDetail;
 import com.yidiantong.presenter.home.CluesDetailPresenter;
-import com.yidiantong.util.ToastUtils;
 import com.yidiantong.widget.FlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -87,6 +84,8 @@ public class CluesDetailActivity extends BaseActivity implements ICluesDetail {
     @Override
     public void init(Bundle savedInstanceState) {
         ButterKnife.bind(this);
+        ImageView iv_weixin = findViewById(R.id.iv_weixin);
+        iv_weixin.setVisibility(View.GONE);
 
         cluesDetailPresenter = new CluesDetailPresenter(this, this);
         tvTitle.setText("线索详情");

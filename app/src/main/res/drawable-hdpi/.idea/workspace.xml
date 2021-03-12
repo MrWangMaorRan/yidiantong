@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4f3f879f-e3c5-4c05-8d01-a9790a8162d7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../../../../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/yidiantong/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/yidiantong/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/yidiantong/adapter/House_Myfile_Adapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/yidiantong/adapter/House_Myfile_Adapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/yidiantong/bean/TalkTimeInfoBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/yidiantong/bean/TalkTimeInfoBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/yidiantong/bean/WeiXinBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/yidiantong/bean/WeiXinBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/yidiantong/fragment/House_MyFile_Fragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/yidiantong/fragment/House_MyFile_Fragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/yidiantong/presenter/MainPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/yidiantong/presenter/MainPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/yidiantong/util/ExcelUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/yidiantong/util/ExcelUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/yidiantong/view/home/CluesDetailActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/yidiantong/view/home/CluesDetailActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/yidiantong/view/mine/MineInfoActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/yidiantong/view/mine/MineInfoActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/yidiantong/view/myhome/MyHomeActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/yidiantong/view/myhome/MyHomeActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/yidiantong/view/warehouse/HouseActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/yidiantong/view/warehouse/HouseActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../layout/activity_my_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../layout/activity_my_home.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../layout/fragment_house__my_file_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../layout/fragment_house__my_file_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../layout/itme_fragment_myfile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../layout/itme_fragment_myfile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../layout/layout_head.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../layout/layout_head.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../layout/layout_nav_content.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../layout/layout_nav_content.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../layout/layout_nav_navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../layout/layout_nav_navigation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../values/style.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../values/style.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../build.gradle" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../.." />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="28" />
+    <option name="width" value="1793" />
+    <option name="height" value="1038" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator currentView="Scope" currentSubView="Scope 'Problems'; set:Problems; class com.intellij.psi.search.scope.ProblemsScope" proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="android.project.structure.last.selected" value="SDK Location" />
+    <property name="android.project.structure.proportion" value="0.15" />
+    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4f3f879f-e3c5-4c05-8d01-a9790a8162d7" name="Default Changelist" comment="" />
+      <created>1615340647564</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1615340647564</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" visible="true" weight="0.18229716" />
+      <window_info id="Structure" side_tool="true" />
+      <window_info id="Image Layers" />
+      <window_info id="Designer" />
+      <window_info id="Resources Explorer" />
+      <window_info id="Capture Tool" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info id="Captures" order="0" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="TODO" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Palette&#9;" />
+    </layout>
+  </component>
+</project>

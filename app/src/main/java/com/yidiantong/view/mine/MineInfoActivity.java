@@ -61,7 +61,7 @@ public class MineInfoActivity extends BaseActivity implements IMine {
 
     @Override
     public void getIntentData() {
-        userInfoBean = (UserInfoBean) getIntent().getSerializableExtra("userInfoBean");
+        userInfoBean = (UserInfoBean) getIntent().getSerializableExtra("MyHome");
     }
 
     @Override

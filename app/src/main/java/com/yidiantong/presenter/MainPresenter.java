@@ -5,19 +5,13 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.text.InputType;
 import android.text.SpannableString;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.SimpleCallback;
-import com.yidiantong.MainActivity;
 import com.yidiantong.R;
 import com.yidiantong.StartActivity;
 import com.yidiantong.adapter.CallListAdapter;
@@ -55,7 +48,6 @@ import com.yidiantong.bean.request.SortDto;
 import com.yidiantong.model.biz.IMain;
 import com.yidiantong.model.impl.MainImpl;
 import com.yidiantong.model.impl.home.PickContactImpl;
-import com.yidiantong.util.LQRPhotoSelectUtils;
 import com.yidiantong.util.LoadImageUtils;
 import com.yidiantong.util.PermissinsUtils;
 import com.yidiantong.util.SharedPreferencesUtil;
@@ -66,7 +58,7 @@ import com.yidiantong.util.log.LogUtils;
 import com.yidiantong.view.company.CompanyInfoActivity;
 import com.yidiantong.view.home.CallingActivity;
 import com.yidiantong.view.home.PickContactActivity;
-import com.yidiantong.view.mine.MineInfoActivity;
+import com.yidiantong.view.myhome.MyHomeActivity;
 import com.yidiantong.view.setting.SettingActivity;
 import com.yidiantong.widget.CustomPartShadowPopupViewLayout;
 import com.yidiantong.widget.CustomPartShadowPopupViewList;
@@ -82,6 +74,7 @@ public class MainPresenter implements MainImpl.OnCallBackListener ,PickContactIm
     public final static int REQUEST_CODE_MINE_UPDATE = 0xa1;
     public final static int REQUEST_CODE_CLUES_UPDATE = 0xa2;
     public final static int REQUEST_CODE_CLUES_UPDATE_CONTACT = 0xa3;
+    public final static int REQUEST_CODE_MINE_UPDATE_SHICHANG= 0xa4;
     private Context mContext;
     private MainImpl mainImpl;
     private IMain iMain;
@@ -106,6 +99,7 @@ public class MainPresenter implements MainImpl.OnCallBackListener ,PickContactIm
     private String callType;
     private String inputCallNumber = "";
     private final PickContactImpl pickContact;
+    private int count;
 
     public MainPresenter(Context mContext, IMain iMain) {
         this.mContext = mContext;
@@ -160,7 +154,11 @@ public class MainPresenter implements MainImpl.OnCallBackListener ,PickContactIm
                 break;
         }
     }
-
+    public  void OnShichang(){
+        Intent intent = new Intent(mContext, MyHomeActivity.class);
+        intent.putExtra("talkTimeInfoBean", talkTimeInfoBean);
+        ((Activity) mContext).startActivityForResult(intent, REQUEST_CODE_MINE_UPDATE_SHICHANG);
+    }
 
     // 刷新
     public void refreshData() {
@@ -187,9 +185,14 @@ public class MainPresenter implements MainImpl.OnCallBackListener ,PickContactIm
     }
 
     public void goToMine() {
-        Intent intent = new Intent(mContext, MineInfoActivity.class);
+        Intent intent = new Intent(mContext, MyHomeActivity.class);
         intent.putExtra("userInfoBean", userInfoBean);
+        intent.putExtra("talkTimeInfoBean", talkTimeInfoBean);
         ((Activity) mContext).startActivityForResult(intent, REQUEST_CODE_MINE_UPDATE);
+
+//        Intent intent = new Intent(mContext, MyHomeActivity.class);
+//        intent.putExtra("Myhome", userInfoBean);
+//        ((Activity) mContext).startActivityForResult(intent, REQUEST_CODE_MINE_UPDATE);
     }
 
     public void goToLoginStart() {
@@ -286,7 +289,7 @@ public class MainPresenter implements MainImpl.OnCallBackListener ,PickContactIm
         xrvCallList.setLayoutManager(layoutManager);
         callListAdapter = new CallListAdapter(mContext, iMain);
         xrvCallList.setAdapter(callListAdapter);
-
+        count = xrvCallList.getChildCount();
         callListAdapter.setOnCallClickListener(new CallListAdapter.OnCallClickListener() {
             @Override
             public void onCallClick(int position, CallRecordsDto callRecordsDto) {
@@ -298,10 +301,13 @@ public class MainPresenter implements MainImpl.OnCallBackListener ,PickContactIm
 
     // 赋值
     public void setListData(TextView tvCluesListCount) {
+//        if (count!=0){
+//            tvCluesListCount.setText(count);
+//        }
         if (callListAdapter != null) {
             callListAdapter.setCluesList(cluesList);
         }
-       // tvCluesListCount.setText(cluesList.size() + "");
+        tvCluesListCount.setText(cluesList.size() + "");
     }
 
     // industry 设为全false
@@ -562,6 +568,7 @@ public class MainPresenter implements MainImpl.OnCallBackListener ,PickContactIm
      */
     public void talkTimeInfo() {
         mainImpl.talkTimeInfo(mContext, new HashMap<>(), this);
+
     }
 
     /**
@@ -1013,6 +1020,7 @@ public class MainPresenter implements MainImpl.OnCallBackListener ,PickContactIm
 
     @Override
     public void onImportContactsFailure(String msg) {
-
+        ToastUtils.showToast(mContext,msg);
+        Log.i("重复导入",msg);
     }
 }

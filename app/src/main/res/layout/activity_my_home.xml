@@ -7,26 +7,27 @@
     android:layout_height="match_parent"
     tools:context=".view.myhome.MyHomeActivity"
     android:id="@+id/lll"
-    android:background="#DAFAFAFA"
+    android:background="#F2FAFAFA"
     >
 
-        <FrameLayout
-            android:id="@+id/fy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_background">
-        </FrameLayout>
+<!--        <FrameLayout-->
+<!--            android:layout_marginTop="-20dp"-->
+<!--            android:id="@+id/fy"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/ic_background">-->
+<!--        </FrameLayout>-->
 
-<!--    <ImageView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:src="@drawable/ic_background"/>-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_background"/>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="75dp"
+            android:layout_marginTop="50dp"
             android:orientation="vertical">
             <LinearLayout
                 android:id="@+id/ll"
@@ -37,13 +38,13 @@
                 android:background="@drawable/shapa_rounds"
                 android:orientation="horizontal">
 
-                <ImageView
+                <com.yidiantong.widget.RoundImageView
                     android:id="@+id/myhome_head"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:src="@drawable/ic_house_excel"></ImageView>
+                    ></com.yidiantong.widget.RoundImageView>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -53,6 +54,7 @@
                     android:paddingLeft="12dp">
 
                     <TextView
+                        android:id="@+id/tv_myname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="张三"
@@ -60,6 +62,7 @@
                         android:textSize="18sp"></TextView>
 
                     <TextView
+                        android:id="@+id/tv_Myphone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="9dp"
@@ -67,12 +70,17 @@
                         android:textColor="#242528"
                         android:textSize="12sp"></TextView>
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"></View>
 
-                <!--        <ImageView-->
-                <!--            android:layout_marginRight="15dp"-->
-                <!--            android:layout_width="wrap_content"-->
-                <!--            android:layout_height="wrap_content"-->
-                <!--            android:src="@drawable/ic_call_next"></ImageView>-->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/ic_call_next"></ImageView>
             </LinearLayout>
             <LinearLayout
                 android:layout_marginTop="10dp"
@@ -82,6 +90,7 @@
                 android:layout_marginLeft="15dp"
                 >
                 <LinearLayout
+                    android:id="@+id/ll_youhui"
                     android:background="@drawable/shapa_rounds"
                     android:layout_width="104dp"
                     android:orientation="vertical"
@@ -153,6 +162,7 @@
                 android:layout_height="150dp"
                 android:orientation="vertical">
                 <LinearLayout
+                    android:id="@+id/my_firm"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="50dp">
@@ -179,6 +189,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"></TextView>
                 <LinearLayout
+                    android:id="@+id/my_file"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="50dp">
@@ -205,6 +216,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"></TextView>
                 <LinearLayout
+                    android:id="@+id/settingsss"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="50dp">
@@ -229,6 +241,34 @@
             </LinearLayout>
 
         </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_button"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <Button
+            android:id="@+id/bt_phino"
+            android:background="@color/white"
+            android:drawableTop="@drawable/ic_dial_white"
+            android:text="拨打"
+            android:textColor="#1a1b1d"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:layout_alignParentLeft="true"></Button>
+        <Button
+            android:background="@color/white"
+            android:drawableTop="@drawable/ic_me_bule"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:text="我"
+            android:textColor="#3f74fd"
+            android:layout_alignParentRight="true"></Button>
+    </LinearLayout>
 
 
 </RelativeLayout>

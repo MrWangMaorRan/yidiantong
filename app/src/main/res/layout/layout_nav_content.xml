@@ -258,8 +258,10 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="40dp"
         android:layout_alignParentBottom="true">
 
         <ImageView
@@ -268,10 +270,42 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="34dp"
-            android:src="@drawable/ic_input_show" />
+            android:src="@drawable/ic_input_show"
+
+            />
 
         <include
             layout="@layout/layout_keyboard"
-            android:visibility="gone" />
+            android:visibility="gone"
+            />
     </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/ll_button"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <Button
+            android:background="@color/white"
+            android:drawableTop="@drawable/ic_dial_blue"
+            android:text="拨打"
+            android:textColor="#3f74fd"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:layout_alignParentLeft="true"></Button>
+        <Button
+            android:id="@+id/tb_my"
+            android:background="@color/white"
+            android:drawableTop="@drawable/ic_me_white"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:text="我"
+            android:textColor="#1a1b1d"
+            android:layout_alignParentRight="true"></Button>
+    </LinearLayout>
+
 </RelativeLayout>

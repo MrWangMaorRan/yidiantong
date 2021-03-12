@@ -11,25 +11,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.contrarywind.view.WheelView;
 import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.yidiantong.R;
-import com.yidiantong.app.MyLinPhoneManager;
 import com.yidiantong.bean.CluesListBean;
 import com.yidiantong.bean.TalkTimeInfoBean;
 import com.yidiantong.bean.request.CallRecordsDto;
 import com.yidiantong.model.biz.IMain;
-import com.yidiantong.model.impl.MainImpl;
 import com.yidiantong.presenter.MainPresenter;
-import com.yidiantong.presenter.home.CallingPresenter;
 import com.yidiantong.util.StringUtils;
 import com.yidiantong.util.SysUtil;
 import com.yidiantong.util.TimeFormat;
@@ -84,6 +78,7 @@ public class CallListAdapter extends RecyclerView.Adapter<CallListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CluesListBean bean = cluesList.get(position);
+
         // 212 3456 7890
 //        if(bean.getNumber().length()==11){
         if (!StringUtils.isEmpty(bean.getNumber())) {

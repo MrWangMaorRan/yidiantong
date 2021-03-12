@@ -129,6 +129,7 @@
             android:layout_height="30dp"
             android:src="@drawable/ic_setting_blue"></ImageView>
         <TextView
+            android:id="@+id/tv_activity_myfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

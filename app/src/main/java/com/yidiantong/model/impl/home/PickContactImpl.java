@@ -81,7 +81,7 @@ public class PickContactImpl {
             @Override
             public void onResponse(String response) {
                 try {
-                    LogUtils.i("PickContactImpl", "PickContactImpl importContacts onResponse ---> " + response.toString());
+                    LogUtils.i("PickContactImp", "PickContactImpl importContacts onResponse ---> " + response.toString());
                     if (!StringUtils.isNullOrBlank(response)) {
                         ResponseCallAllBean responseCallAllBean = new Gson().fromJson(
                                 response, new TypeToken<ResponseCallAllBean>() {

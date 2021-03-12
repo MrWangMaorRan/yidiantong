@@ -1,6 +1,8 @@
 package com.yidiantong.bean;
 
-public class TalkTimeInfoBean {
+import java.io.Serializable;
+
+public class TalkTimeInfoBean implements Serializable {
     private String trafficSurplus;
 
     public String getTrafficSurplus() {
