@@ -428,6 +428,7 @@ public class MainPresenter implements MainImpl.OnCallBackListener ,PickContactIm
                             industryList.get(position.get(i)).setChecked(true);
                             cluesDto.setIndustry(industryList.get(position.get(i)).getIndustry());
                             iMain.industryChooseResult(industryList.get(position.get(i)).getIndustry());
+                            Log.i("产业",industryList.get(position.get(i)).getIndustry());
                             if (callListAdapter != null) {
                                 callListAdapter.setIndustry(industryList.get(position.get(i)).getIndustry());
                             }

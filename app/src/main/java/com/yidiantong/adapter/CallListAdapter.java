@@ -99,9 +99,9 @@ public class CallListAdapter extends RecyclerView.Adapter<CallListAdapter.ViewHo
          }*/
         // 时间地址和状态显示如果为空，则隐藏布局
         if (StringUtils.isNullOrBlank(bean.getCallTime()) && StringUtils.isNullOrBlank(bean.getCallTime())) {
-            holder.tvTimeNAddress.setText("");
+            holder.tvTimeNAddress.setText("未拨打");
             holder.tvCallState.setText("");
-            holder.llTimeAddressState.setVisibility(View.GONE);
+          //  holder.llTimeAddressState.setVisibility(View.GONE);
         } else {
             holder.tvTimeNAddress.setText(bean.getCallTime());
             holder.tvCallState.setText(bean.getStatus());
